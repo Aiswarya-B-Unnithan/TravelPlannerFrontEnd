@@ -1,0 +1,43 @@
+.video-chat-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #222; 
+  color: #fff; 
+}
+
+.inputForm {
+  max-width: 400px;
+  width: 100%;
+}
+
+.roomLabel {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.roomInput {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+   color: #000;
+}
+
+.addRoom {
+  background-color: #007bff; 
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  margin-right: 50px; 
+}
+
+.backButton {
+  background-color: #cc2c2c; 
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+}

@@ -1,0 +1,546 @@
+{{> userheader}}
+<!-- Product -->
+	<div class="bg0 m-t-23 p-b-140">
+		<div class="container">
+			<div class="flex-w flex-sb-m p-b-52">
+				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
+					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
+						<a href="/dashboard"> Products</a>
+						
+					</button>
+
+					
+					{{!-- Iterate through the categories and generate filter buttons --}}
+                {{#each categories}}
+                <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".{{toLowerCase this.name}}">
+                   
+				   <a href="/category/{{this._id}}">{{this.name}}</a>
+				    
+                </button>
+                {{/each}}
+				</div>
+
+				<div class="flex-w flex-c-m m-tb-10">
+					<div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
+						<i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
+						<i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+						 Filter
+					</div>
+
+					<div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
+						<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
+						<i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+						Search
+					</div>
+				</div>
+				
+				<!-- Search product -->
+				<div class="dis-none panel-search w-full p-t-10 p-b-15">
+					<div class="bor8 dis-flex p-l-15">
+						<form action="/search/products" method="GET">
+						<button>
+							<i class="zmdi zmdi-search"></i>
+						</button>
+						<input  style="height:50px" type="text" name="searchProduct" placeholder="Search">
+						</form>
+					</div>	
+				</div>
+
+				
+        <!-- Filter -->
+<div class="dis-none panel-filter w-full p-t-10">
+    <div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
+        <div class="filter-col1 p-r-15 p-b-27">
+            <div class="mtext-102 cl2 p-b-15">
+                Sort By
+            </div>
+
+            <!-- Filter links for sorting -->
+            <ul>
+                <li><a id="lowToHighSort" class="filter-link p-b-6" data-sort-by="PriceLowToHigh">Price: Low to High</a></li>
+                <li><a id="highToLowSort" class="filter-link p-b-6" data-sort-by="PriceHighToLow">Price: High to Low</a></li>
+            </ul>
+        </div>
+
+        <div class="filter-col2 p-r-15 p-b-27">
+            <div class="mtext-102 cl2 p-b-15">
+                Stock Status
+            </div>
+            <select id="stockFilter" class="form-control">
+                <option value="all">All</option>
+                <option value="instock">In Stock</option>
+                <option value="outofstock">Out of Stock</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+			</div>
+
+			<div class="row isotope-grid">
+               {{#each mainImages}}
+			  {{#with (lookup ../products @index)}}
+			   
+			   
+               <!-- Default class if the category name doesn't match any of the above -->
+               <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item">
+               
+			   
+            <!-- Block2 -->
+					<div class="block2">
+						<div class="block2-pic hov-img0">
+						  <img src="/{{images.[0]}}" alt="IMG-PRODUCT">
+                          <a href="" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1" data-product-id="{{_id}}">
+                          Quick View
+                          </a>
+						</div>
+						<div class="block2-txt flex-w flex-t p-t-14">
+							<div class="block2-txt-child1 flex-col-l ">
+								<a href="/product/{{_id}}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+									{{productName}}
+								</a>
+                                {{#if offerPrice}}
+								<span class="stext-105 cl3">
+									<span style="text-decoration:line-through">₹{{price}}</span>
+                                   <span style="color:red">Now Only ₹{{offerPrice}}</span> 
+								</span>
+                                {{else}}
+                                <span class="stext-105 cl3">
+									₹{{price}}
+								</span>
+                                {{/if}}
+							</div>
+
+							<div class="block2-txt-child2 flex-r p-t-3">
+								<a href="" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2" data-product-id="{{_id}}">
+									<img class="icon-heart1 dis-block trans-04" src="/Bootstrap/imagesNew/icons/icon-heart-01.png" alt="ICON">
+									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="/Bootstrap/imagesNew/icons/icon-heart-02.png" alt="ICON">
+								</a>
+							</div>
+						</div>
+                        {{/with}}
+					</div>
+				     </div>
+				 {{/each }}
+		    </div>
+		</div>
+	</div>
+<!-- Modal1 Quick View -->
+<div class="wrap-modal1 js-modal1 p-t-60 p-b-20">
+  <div class="overlay-modal1 js-hide-modal1"></div>
+
+  <div class="container">
+    <div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
+      <button class="how-pos3 hov3 trans-04 js-hide-modal1">
+        <img src="/Bootstrap/imagesNew/icons/icon-close.png" alt="CLOSE" />
+      </button>
+
+      <div class="row">
+		
+        <div class="col-md-6 col-lg-7 p-b-30">
+          <div class="p-l-25 p-r-30 p-lr-0-lg">
+            <div class="wrap-slick3 flex-sb flex-w">
+              <div class="wrap-slick3-dots" ></div>
+              <div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
+
+              <div class="slick3 gallery-lb">
+                <div
+                  class="item-slick3"
+                  data-thumb="" 
+                >
+                  <div class="wrap-pic-w pos-relative">
+                    <img src="" alt="" />
+
+                    <a
+                      class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
+                      href=""
+                    >
+                      <i class="fa fa-expand"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-5 p-b-30">
+          <div class="p-r-50 p-t-5 p-lr-0-lg">
+            <h4 class="mtext-105 cl2 js-name-detail p-b-14">
+            </h4>
+            <span class="mtext-106 cl2 js-price-detail">
+            </span>
+			
+			<span class="mtext-106 cl2 js-Offer-price-detail">
+            </span>
+			<p class="stext-102 cl3 p-t-23 js-stock-detail">
+            </p>
+
+            <p class="stext-102 cl3 p-t-23 js-description-detail">
+				
+				
+            </p>
+
+            <!--  -->
+            <div class="p-t-33">
+              <div class="flex-w flex-r-m p-b-10" style="visibility:hidden">
+                <div class="size-203 flex-c-m respon6">
+                  Color
+                </div>
+
+                <div class="size-204 respon6-next">
+                  <div class="rs1-select2 bor8 bg0">
+                    <select class="js-select2" name="time">
+                      <option>Choose an option</option>
+                      <option>Red</option>
+                      <option>Blue</option>
+                      <option>White</option>
+                      <option>Grey</option>
+                    </select>
+                    <div class="dropDownSelect2"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex-w flex-r-m p-b-10">
+                <div class="size-204 flex-w flex-m respon6-next">
+                  
+
+
+<form id="addToCartForm" action="" method="GET">
+  <input type="hidden" name="productId" id="productId" value="">
+  <input type="hidden" name="price" id="price" value="">
+  <input type="hidden" name="offerPrice" id="offerPrice" value="">
+
+
+<div class="wrap-num-product flex-w m-r-20 m-tb-10">
+                    <div
+                      class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m"
+                    >
+                      <i class="fs-16 zmdi zmdi-minus"></i>
+                    </div>
+
+                    <input
+                      class="mtext-104 cl3 txt-center num-product"
+                      type="number"
+                      name="quantity" 
+					  id="quantity"
+                      value="1"
+                    />
+
+                    <div
+                      class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m"
+                    >
+                      <i class="fs-16 zmdi zmdi-plus"></i>
+                    </div>
+                  </div>
+  <button type="submit" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+    Add to cart
+  </button>
+</form>
+                </div>
+              </div>
+            </div>
+
+            <!--  -->
+            <div class="flex-w flex-m p-l-100 p-t-40 respon7">
+              <div class="flex-m bor9 p-r-10 m-r-11">
+                <a
+                  href="#"
+                  class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
+                  data-tooltip="Add to Wishlist"
+                >
+                  <i class="zmdi zmdi-favorite"></i>
+                </a>
+              </div>
+
+              <a
+                href="#"
+                class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
+                data-tooltip="Facebook"
+              >
+                <i class="fa fa-facebook"></i>
+              </a>
+
+              <a
+                href="#"
+                class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
+                data-tooltip="Twitter"
+              >
+                <i class="fa fa-twitter"></i>
+              </a>
+
+              <a
+                href="#"
+                class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
+                data-tooltip="Google Plus"
+              >
+                <i class="fa fa-google-plus"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<nav aria-label="...">
+  <ul class="pagination pagination-sm justify-content-center">
+    {{#for 1 totalPages 1}}
+    <li class="page-item {{#ifeq this ../currentPage}}active{{/ifeq}}">
+      <a class="page-link" href="/dashboard?page={{this}}">
+        {{this}}
+      </a>
+    </li>
+    {{/for}}
+  </ul>
+</nav>
+
+<!--===============================================================================================-->	
+
+<script src="/Bootstrap/custonJsFiles/sortingProductsNew.js"></script>
+
+
+<!--===============================================================================================-->	
+	<script src="/Bootstrap/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/Bootstrap/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/Bootstrap/vendor/bootstrap/js/popper.js"></script>
+	<script src="/Bootstrap/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/Bootstrap/vendor/select2/select2.min.js"></script>
+	<script>
+		$(".js-select2").each(function(){
+			$(this).select2({
+				minimumResultsForSearch: 20,
+				dropdownParent: $(this).next('.dropDownSelect2')
+			});
+		})
+	</script>
+<!--===============================================================================================-->
+	<script src="/Bootstrap/vendor/daterangepicker/moment.min.js"></script>
+	<script src="/Bootstrap/vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+	<script src="/Bootstrap/vendor/slick/slick.min.js"></script>
+	<script src="/Bootstrap/jsNew/slick-custom.js"></script>
+<!--===============================================================================================-->
+	<script src="/Bootstrap/vendor/parallax100/parallax100.js"></script>
+	<script>
+        $('.parallax100').parallax100();
+	</script>
+<!--===============================================================================================-->
+	{{!-- <script src="/Bootstrap/vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
+	<script>
+		$('.gallery-lb').each(function() { // the containers for all your galleries
+			$(this).magnificPopup({
+		        delegate: 'a', // the selector for gallery item
+		        type: 'image',
+		        gallery: {
+		        	enabled:true
+		        },
+		        mainClass: 'mfp-fade',
+				
+		    });
+		});
+	</script> --}}
+
+
+
+
+
+
+	<!--===============================================================================================-->	
+
+
+<script>
+
+let filteredProducts = []; // Initialize an empty array to store filtered products
+
+// Function to fetch and filter products based on price and stock status
+function fetchAndFilterProducts(priceSortMethod, stockFilter) {
+    // Fetch product data from a hypothetical API endpoint
+    $.ajax({
+        url: '/allProducts', // Replace with your actual API endpoint
+        method: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            // Assuming the API returns an array of products in JSON format
+            const products = response.products;
+            console.log("products", products);
+
+            // Filter products by price
+            const sortedProducts = products.slice().sort((a, b) => {
+                if (priceSortMethod === 'lowToHigh') {
+                    return a.price - b.price;
+                } else if (priceSortMethod === 'highToLow') {
+                    return b.price - a.price;
+                }
+            });
+
+            // Filter products by stock status
+            if (stockFilter === 'instock') {
+                filteredProducts = sortedProducts.filter(product => product.stock === 'Instock');
+            } else if (stockFilter === 'outofstock') {
+                filteredProducts = sortedProducts.filter(product => product.stock === 'Out_of_Stock');
+            } else {
+                filteredProducts = sortedProducts; // No stock filter, use all sorted products
+            }
+
+            // Render the filtered products
+            renderProducts(filteredProducts);
+        },
+        error: function (error) {
+            console.error('Error fetching product data:', error);
+        }
+    });
+}
+ // Function to render sorted products
+      function renderProducts(sortedProducts) {
+        // Clear the existing product list
+        $('.isotope-grid').empty();
+
+        // Loop through the sorted products and render them
+        sortedProducts.forEach(function (product) {
+          // Generate HTML for each product
+          
+		  const productHTML = `
+                  <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item">
+                  <div class="block2">
+                   <div class="block2-pic hov-img0">
+                    <img src="${product.images[0]}" alt="${product.productName}">
+                    <a href="/product/${product._id}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1" data-product-id="${product._id}">
+                        Quick View
+                    </a>
+                </div>
+                <div class="block2-txt flex-w flex-t p-t-14">
+                    <div class="block2-txt-child1 flex-col-l">
+                        <a href="/product/${product._id}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                            ${product.productName}
+                        </a>
+                        <span class="stext-105 cl3">
+                            ₹${product.price}
+                        </span>
+                    </div>
+                    <div class="block2-txt-child2 flex-r p-t-3">
+                        <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2" data-product-id="${product._id}">
+                            <img class="icon-heart1 dis-block trans-04" src="/Bootstrap/imagesNew/icons/icon-heart-01.png" alt="ICON">
+                            <img class="icon-heart2 dis-block trans-04 ab-t-l" src="/Bootstrap/imagesNew/icons/icon-heart-02.png" alt="ICON">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+          // Append the product HTML to '.isotope-grid'
+          $('.isotope-grid').append(productHTML);
+        });
+      }
+
+// Event listener for the "Low to High" price sorting
+$('#lowToHighSort').click(function (e) {
+    e.preventDefault();
+    fetchAndFilterProducts('lowToHigh', $('#stockFilter').val());
+});
+
+// Event listener for the "High to Low" price sorting
+$('#highToLowSort').click(function (e) {
+    e.preventDefault();
+    fetchAndFilterProducts('highToLow', $('#stockFilter').val());
+});
+
+// Event listener for the stock filter dropdown
+$('#stockFilter').change(function () {
+    fetchAndFilterProducts($('#priceSort').val(), $(this).val());
+});
+
+// Initially, fetch and filter products by price (low to high) and no stock filter
+fetchAndFilterProducts('lowToHigh', 'all');
+
+</script>
+
+
+
+<!--===============================================================================================-->
+	<script src="/Bootstrap/vendor/isotope/isotope.pkgd.min.js"></script>
+<!--===============================================================================================-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>	
+	<script>
+		
+	$('.js-addwish-b2, .js-addwish-detail').on('click', function (e) {
+		console.log("hello")
+    e.preventDefault();
+});
+
+$('.js-addwish-b2').each(function () {
+    var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
+    var productId = $(this).data('product-id'); 
+	
+	console.log("productId",productId)
+
+    $(this).on('click', function () {
+		console.log("adding to wishlist")
+        // Perform the AJAX POST request to add the product to the wishlist
+        $.ajax({
+            url: '/wishlist/userWhishList',
+            method: 'POST',
+            data: {
+                productId: productId,
+                nameProduct: nameProduct
+            },
+            success: function (response) {
+                // Handle the success response
+               Swal.fire({
+            title: nameProduct,
+            text: "is added to wishlist !",
+            icon: "success"
+        });
+                $(this).addClass('js-addedwish-b2');
+                $(this).off('click');
+            },
+            error: function (error) {
+                // Handle the error
+                console.error(error);
+            }
+        });
+    });
+});
+
+
+
+
+
+		/*---------------------------------------------*/
+
+	
+		$('.js-addcart-detail').each(function(){
+			var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
+			$(this).on('click', function(){
+				swal(nameProduct, "is added to cart !", "success");
+			});
+		});
+	
+	</script>
+<!--===============================================================================================-->
+	<script src="/Bootstrap/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+	<script>
+		$('.js-pscroll').each(function(){
+			$(this).css('position','relative');
+			$(this).css('overflow','hidden');
+			var ps = new PerfectScrollbar(this, {
+				wheelSpeed: 1,
+				scrollingThreshold: 1000,
+				wheelPropagation: false,
+			});
+
+			$(window).on('resize', function(){
+				ps.update();
+			})
+		});
+	</script>
+<!--===============================================================================================-->
+	<script src="/Bootstrap/jsNew/main.js"></script>
+
+
+    {{> userfooter}}
